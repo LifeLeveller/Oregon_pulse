@@ -16,6 +16,7 @@ export default function App() {
           <div className="header-overlay">
             <h1>Oregon Pulse</h1>
             <p>West Linn and Oregon local dashboard</p>
+            <span className="header-copyright">© 2026 Sriranjini Sridhar</span>
           </div>
         </div>
       </header>
