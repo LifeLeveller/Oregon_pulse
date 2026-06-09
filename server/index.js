@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
 
 const app = express();
@@ -13,7 +14,6 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok", service: "oregon-pulse-node" });
 });
 
-// Manual proxy using node-fetch
 app.use("/api", async (req, res) => {
   const targetUrl = `${FASTAPI_URL}${req.originalUrl}`;
   console.log(`Proxying: ${req.originalUrl} -> ${targetUrl}`);
@@ -26,6 +26,12 @@ app.use("/api", async (req, res) => {
     console.error("Proxy error:", err.message);
     res.status(502).json({ error: "FastAPI service unavailable" });
   }
+});
+
+// Serve React frontend in production
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
 });
 
 app.listen(PORT, () => {
