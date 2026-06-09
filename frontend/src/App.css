@@ -16,21 +16,6 @@ body {
   padding: 24px;
 }
 
-.header {
-  margin-bottom: 32px;
-}
-
-.header h1 {
-  font-size: 32px;
-  font-weight: 700;
-  color: #2d3748;
-}
-
-.header p {
-  color: #718096;
-  margin-top: 4px;
-}
-
 .dashboard {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -123,6 +108,43 @@ body {
   color: #a0aec0;
 }
 
+.header-banner {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.header-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.header-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-overlay h1 {
+  color: white;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.header-overlay p {
+  color: rgba(255,255,255,0.85);
+  margin-top: 6px;
+  font-size: 16px;
+}
 @media (max-width: 768px) {
   .dashboard {
     grid-template-columns: 1fr;
