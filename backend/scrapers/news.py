@@ -30,5 +30,4 @@ def fetch_oregon_news():
 if __name__ == "__main__":
     results = fetch_oregon_news()
     for item in results[:3]:
-        print(f"
-{item['source']}: {item['title']}")
+        print(f"\n{item['source']}: {item['title']}")

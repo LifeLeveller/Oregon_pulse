@@ -27,7 +27,6 @@ def scrape_page(url, source_name):
         response = requests.get(url, headers=headers, timeout=10)
         soup = BeautifulSoup(response.text, "html.parser")
 
-        # Try multiple common selectors for event listings
         selectors = [
             ".calendar-item", ".views-row", "article",
             ".event-item", ".event-card", ".tribe-event",
@@ -40,7 +39,6 @@ def scrape_page(url, source_name):
             if len(items) > 2:
                 break
 
-        # Fall back to all article or li tags
         if not items:
             items = soup.find_all(["article", "li"], limit=15)
 
@@ -51,11 +49,9 @@ def scrape_page(url, source_name):
 
             title = title_tag.get_text(strip=True)
 
-            # Skip navigation items and very short titles
             if len(title) < 5:
                 continue
 
-            # Skip obvious nav items
             skip_words = ["home", "about", "contact", "menu", "search", "login", "sign"]
             if any(word in title.lower() for word in skip_words):
                 continue
@@ -100,7 +96,6 @@ def fetch_events():
         events += results
         print(f"{source['name']}: {len(results)} events")
 
-    # Remove duplicates by title
     seen = set()
     unique = []
     for e in events:
@@ -115,7 +110,6 @@ def fetch_events():
 if __name__ == "__main__":
     results = fetch_events()
     for item in results:
-        print(f"
-{item['source']}: {item['title']}")
+        print(f"\n{item['source']}: {item['title']}")
         if item["date"]:
             print(f"  Date: {item['date']}")
