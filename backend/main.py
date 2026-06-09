@@ -1,3 +1,5 @@
+# © 2026 Sriranjini Sridhar. All rights reserved.
+# Oregon Pulse — github.com/LifeLeveller/Oregon_pulse
 import sys
 import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))

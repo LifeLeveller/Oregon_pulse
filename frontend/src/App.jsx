@@ -25,6 +25,10 @@ export default function App() {
         <NewsFeed />
         <EventsList />
       </main>
+      <footer className="footer">
+        <p>© {new Date().getFullYear()} Sriranjini Sridhar. All rights reserved.</p>
+        <p>Built with Python, FastAPI, React and deployed on Railway and Vercel.</p>
+      </footer>
     </div>
   );
 }

@@ -153,6 +153,17 @@ body {
   margin-top: 6px;
   font-size: 16px;
 }
+.footer {
+  margin-top: 48px;
+  padding: 24px;
+  text-align: center;
+  border-top: 1px solid #e2e8f0;
+}
+.footer p {
+  font-size: 13px;
+  color: #a0aec0;
+  margin-bottom: 4px;
+}
 @media (max-width: 768px) {
   .dashboard {
     grid-template-columns: 1fr;

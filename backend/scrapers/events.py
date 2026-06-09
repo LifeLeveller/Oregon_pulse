@@ -1,3 +1,5 @@
+# © 2026 Sriranjini Sridhar. All rights reserved.
+# Oregon Pulse — github.com/LifeLeveller/Oregon_pulse
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -113,6 +115,7 @@ def fetch_events():
 if __name__ == "__main__":
     results = fetch_events()
     for item in results:
-        print(f"\n{item['source']}: {item['title']}")
+        print(f"
+{item['source']}: {item['title']}")
         if item["date"]:
             print(f"  Date: {item['date']}")

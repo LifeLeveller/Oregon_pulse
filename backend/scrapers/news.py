@@ -1,3 +1,5 @@
+# © 2026 Sriranjini Sridhar. All rights reserved.
+# Oregon Pulse — github.com/LifeLeveller/Oregon_pulse
 import feedparser
 import requests
 from datetime import datetime
@@ -28,4 +30,5 @@ def fetch_oregon_news():
 if __name__ == "__main__":
     results = fetch_oregon_news()
     for item in results[:3]:
-        print(f"\n{item['source']}: {item['title']}")
+        print(f"
+{item['source']}: {item['title']}")

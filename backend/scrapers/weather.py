@@ -1,3 +1,5 @@
+# © 2026 Sriranjini Sridhar. All rights reserved.
+# Oregon Pulse — github.com/LifeLeveller/Oregon_pulse
 import requests
 import os
 from datetime import datetime
