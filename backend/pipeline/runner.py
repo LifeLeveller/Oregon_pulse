@@ -10,29 +10,24 @@ from backend.scrapers.weather import fetch_weather
 from backend.db.database import init_db, save_headlines, save_events, save_weather
 
 def run_pipeline():
-    print("
---- Oregon Pulse Pipeline ---")
+    print("\n--- Oregon Pulse Pipeline ---")
     print("Initializing database...")
     init_db()
 
-    print("
-Fetching news...")
+    print("\nFetching news...")
     headlines = fetch_oregon_news()
     save_headlines(headlines)
 
-    print("
-Fetching weather...")
+    print("\nFetching weather...")
     weather = fetch_weather()
     if weather:
         save_weather(weather)
 
-    print("
-Fetching events...")
+    print("\nFetching events...")
     events = fetch_events()
     save_events(events)
 
-    print("
-Pipeline complete.")
+    print("\nPipeline complete.")
 
 if __name__ == "__main__":
     run_pipeline()
