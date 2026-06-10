@@ -5,8 +5,9 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 
+# Load .env file if it exists locally, but don't override existing env vars
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
+load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"), override=False)
 
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
 
