@@ -60,15 +60,19 @@ def get_events(limit: int = 20, city: str = None):
         return {"count": len(data), "events": data}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-        
+
 @app.get("/api/debug/weather")
 def debug_weather():
     import os
+    import subprocess
     key = os.getenv("OPENWEATHER_API_KEY")
+    all_keys = [k for k in os.environ.keys() if "WEATHER" in k.upper() or "OPEN" in k.upper()]
     return {
         "key_exists": key is not None,
         "key_length": len(key) if key else 0,
-        "key_preview": key[:8] + "..." if key else None
+        "key_preview": key[:8] + "..." if key else None,
+        "related_env_vars": all_keys,
+        "total_env_vars": len(os.environ)
     }
 
 @app.post("/api/pipeline/run")
