@@ -5,12 +5,6 @@ const CITIES = [
   "Eugene",
   "West Linn",
   "Lake Oswego",
-  "Bend",
-  "Medford",
-  "Ashland",
-  "Corvallis",
-  "Hillsboro",
-  "Beaverton",
 ];
 
 export default function CityFilter({ selectedCity, onCityChange }) {

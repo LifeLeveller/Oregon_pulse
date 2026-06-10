@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchWeather } from "../api";
 
-export default function WeatherCard() {
+export default function WeatherCard({ city }) {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["weather"],
-    queryFn: fetchWeather,
+    queryKey: ["weather", city],
+    queryFn: () => fetchWeather(city),
   });
 
   if (isLoading) return <div className="card">Loading weather...</div>;
@@ -12,7 +12,7 @@ export default function WeatherCard() {
 
   return (
     <div className="card">
-      <h2>West Linn Weather</h2>
+      <h2>{data.city} Weather</h2>
       <div className="weather-temp">{data.temp_f}°F</div>
       <div className="weather-desc">{data.description}</div>
       <div className="weather-details">

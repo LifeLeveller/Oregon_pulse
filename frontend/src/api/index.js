@@ -10,8 +10,9 @@ export const fetchHeadlines = async (city = null) => {
   return data;
 };
 
-export const fetchWeather = async () => {
-  const { data } = await api.get("/weather");
+export const fetchWeather = async (city = "Oregon") => {
+  const params = { city };
+  const { data } = await api.get("/weather", { params });
   return data;
 };
 

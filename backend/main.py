@@ -41,12 +41,13 @@ def get_headlines(limit: int = 20):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/weather")
-def get_weather():
+def get_weather(city: str = "Oregon"):
     try:
-        data = query_weather(limit=1)
-        if not data:
+        from backend.scrapers.weather import fetch_weather
+        weather = fetch_weather(city)
+        if not weather:
             raise HTTPException(status_code=404, detail="No weather data found")
-        return data[0]
+        return weather
     except HTTPException:
         raise
     except Exception as e:

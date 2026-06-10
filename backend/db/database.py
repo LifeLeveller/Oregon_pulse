@@ -163,7 +163,8 @@ def save_headlines(headlines):
     saved = 0
 
     for item in headlines:
-        city = detect_city(item.get("title", "") + " " + item.get("summary", ""))
+        # Use city from scraper if provided, otherwise detect it
+        city = item.get("city") or detect_city(item.get("title", "") + " " + item.get("summary", ""))
         try:
             cursor.execute("""
                 INSERT OR IGNORE INTO headlines
