@@ -10,14 +10,12 @@ CITY_FEEDS = {
     ],
     "Portland": [
         "https://www.portlandmercury.com/portland/Rss.xml",
-        "https://katu.com/feed/news",
     ],
     "Salem": [
         "https://www.salemreporter.com/feed",
     ],
     "Eugene": [
         "https://www.eugeneweekly.com/feed",
-        "https://www.klcc.org/rss.xml",
     ],
     "West Linn": [
         "https://westlinntidings.com/feed",
@@ -42,7 +40,7 @@ def fetch_city_news(city, urls):
                     "link": entry.get("link", ""),
                     "summary": summary,
                     "source": feed.feed.get("title", url),
-                    "city": city,  # Always use the feed's city directly
+                    "city": city,
                     "published_at": entry.get("published", str(datetime.now())),
                     "fetched_at": str(datetime.now()),
                 })
