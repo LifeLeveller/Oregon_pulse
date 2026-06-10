@@ -6,7 +6,7 @@ import CityFilter from "./components/CityFilter";
 import "./App.css";
 
 export default function App() {
-  const [selectedCity, setSelectedCity] = useState("Oregon");
+  const [selectedCity, setSelectedCity] = useState("Portland");
 
   return (
     <div className="app">

@@ -13,7 +13,7 @@ export default function EventsList({ city }) {
   return (
     <div className="card">
       <h2>Local Events</h2>
-      {data.events.length === 0 ? (
+      {!data || data.events.length === 0 ? (
         <p className="no-results">No events found for {city}.</p>
       ) : (
         <ul className="events-list">
