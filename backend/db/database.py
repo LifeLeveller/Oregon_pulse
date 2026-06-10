@@ -5,6 +5,11 @@ import os
 from datetime import datetime
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "oregon_pulse.db")
+OREGON_CITIES = [
+    "Portland", "Salem", "Eugene", "West Linn", "Lake Oswego",
+    "Bend", "Medford", "Ashland", "Corvallis", "Gresham",
+    "Hillsboro", "Beaverton", "Tigard", "Tualatin", "Wilsonville"
+]
 
 def get_connection():
     conn = sqlite3.connect(DB_PATH)
@@ -138,6 +143,100 @@ def query_events(limit=20):
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM events ORDER BY fetched_at DESC LIMIT ?", (limit,))
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
+
+def detect_city(text):
+    if not text:
+        return "Oregon"
+    text_lower = text.lower()
+    for city in OREGON_CITIES:
+        if city.lower() in text_lower:
+            return city
+    return "Oregon"
+
+def save_headlines(headlines):
+    conn = get_connection()
+    cursor = conn.cursor()
+    saved = 0
+
+    for item in headlines:
+        city = detect_city(item.get("title", "") + " " + item.get("summary", ""))
+        try:
+            cursor.execute("""
+                INSERT OR IGNORE INTO headlines
+                (title, link, summary, source, published_at, fetched_at, city)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (
+                item["title"], item["link"], item["summary"],
+                item["source"], item["published_at"], item["fetched_at"], city
+            ))
+            if cursor.rowcount > 0:
+                saved += 1
+        except Exception as e:
+            print(f"Error saving headline: {e}")
+
+    conn.commit()
+    conn.close()
+    print(f"Saved {saved} new headlines")
+
+def save_events(events):
+    conn = get_connection()
+    cursor = conn.cursor()
+    saved = 0
+
+    for item in events:
+        city = detect_city(item.get("title", "") + " " + item.get("source", ""))
+        try:
+            cursor.execute("""
+                INSERT OR IGNORE INTO events
+                (title, link, source, date, description, fetched_at, city)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (
+                item["title"], item["link"], item["source"],
+                item["date"], item["description"], item["fetched_at"], city
+            ))
+            if cursor.rowcount > 0:
+                saved += 1
+        except Exception as e:
+            print(f"Error saving event: {e}")
+
+    conn.commit()
+    conn.close()
+    print(f"Saved {saved} new events")
+
+def query_headlines(limit=20, city=None):
+    conn = get_connection()
+    cursor = conn.cursor()
+    if city and city != "Oregon":
+        cursor.execute(
+            "SELECT * FROM headlines WHERE city = ? ORDER BY fetched_at DESC LIMIT ?",
+            (city, limit)
+        )
+    else:
+        cursor.execute(
+            "SELECT * FROM headlines ORDER BY fetched_at DESC LIMIT ?",
+            (limit,)
+        )
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
+def query_events(limit=20, city=None):
+    conn = get_connection()
+    cursor = conn.cursor()
+    if city and city != "Oregon":
+        cursor.execute(
+            "SELECT * FROM events WHERE city = ? ORDER BY fetched_at DESC LIMIT ?",
+            (city, limit)
+        )
+    else:
+        cursor.execute(
+            "SELECT * FROM events ORDER BY fetched_at DESC LIMIT ?",
+            (limit,)
+        )
     rows = cursor.fetchall()
     conn.close()
     return [dict(row) for row in rows]

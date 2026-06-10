@@ -164,6 +164,41 @@ body {
   color: #a0aec0;
   margin-bottom: 4px;
 }
+.city-filter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 0 4px;
+}
+
+.city-filter label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.city-filter select {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  font-size: 14px;
+  color: #2d3748;
+  background: white;
+  cursor: pointer;
+}
+
+.city-filter select:focus {
+  outline: none;
+  border-color: #4299e1;
+}
+
+.no-results {
+  font-size: 14px;
+  color: #a0aec0;
+  text-align: center;
+  padding: 24px 0;
+}
 @media (max-width: 768px) {
   .dashboard {
     grid-template-columns: 1fr;

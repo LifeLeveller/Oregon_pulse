@@ -4,8 +4,9 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "/api",
 });
 
-export const fetchHeadlines = async () => {
-  const { data } = await api.get("/headlines");
+export const fetchHeadlines = async (city = null) => {
+  const params = city && city !== "Oregon" ? { city } : {};
+  const { data } = await api.get("/headlines", { params });
   return data;
 };
 
@@ -14,7 +15,8 @@ export const fetchWeather = async () => {
   return data;
 };
 
-export const fetchEvents = async () => {
-  const { data } = await api.get("/events");
+export const fetchEvents = async (city = null) => {
+  const params = city && city !== "Oregon" ? { city } : {};
+  const { data } = await api.get("/events", { params });
   return data;
 };

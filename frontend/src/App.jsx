@@ -1,9 +1,13 @@
+import { useState } from "react";
 import WeatherCard from "./components/WeatherCard";
 import NewsFeed from "./components/NewsFeed";
 import EventsList from "./components/EventsList";
+import CityFilter from "./components/CityFilter";
 import "./App.css";
 
 export default function App() {
+  const [selectedCity, setSelectedCity] = useState("Oregon");
+
   return (
     <div className="app">
       <header className="header">
@@ -20,10 +24,11 @@ export default function App() {
           </div>
         </div>
       </header>
+      <CityFilter selectedCity={selectedCity} onCityChange={setSelectedCity} />
       <main className="dashboard">
         <WeatherCard />
-        <NewsFeed />
-        <EventsList />
+        <NewsFeed city={selectedCity} />
+        <EventsList city={selectedCity} />
       </main>
       <footer className="footer">
         <p>© {new Date().getFullYear()} Sriranjini Sridhar. All rights reserved.</p>
