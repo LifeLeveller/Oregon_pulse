@@ -22,9 +22,6 @@ export default function WeatherCard({ city }) {
         <span>Humidity {data.humidity}%</span>
         <span>Wind {data.wind_speed} mph</span>
       </div>
-      <div className="weather-updated">
-        Updated {new Date(data.fetched_at).toLocaleTimeString()}
-      </div>
     </div>
   );
 }
