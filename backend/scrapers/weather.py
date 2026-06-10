@@ -5,11 +5,13 @@ import os
 from datetime import datetime
 from dotenv import load_dotenv
 
-# Load .env file if it exists locally, but don't override existing env vars
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"), override=False)
-# Strip any quotes Railway might add around the value
-API_KEY = os.getenv("OPENWEATHER_API_KEY", "").strip().strip('"').strip("'")
+
+API_KEY = os.getenv("OPENWEATHER_API_KEY")
+if not API_KEY:
+    from backend.config import OPENWEATHER_API_KEY
+    API_KEY = OPENWEATHER_API_KEY
 
 CITY_COORDINATES = {
     "Oregon": {"lat": 45.3651, "lon": -122.6465, "name": "West Linn"},
