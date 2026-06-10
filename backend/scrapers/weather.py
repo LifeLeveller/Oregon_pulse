@@ -14,7 +14,7 @@ if not API_KEY:
     API_KEY = OPENWEATHER_API_KEY
 
 CITY_COORDINATES = {
-    "Oregon": {"lat": 45.3651, "lon": -122.6465, "name": "West Linn"},
+    "Oregon": {"lat": 44.9429, "lon": -123.0351, "name": "Oregon (Salem)"},
     "West Linn": {"lat": 45.3651, "lon": -122.6465, "name": "West Linn"},
     "Portland": {"lat": 45.5051, "lon": -122.6750, "name": "Portland"},
     "Salem": {"lat": 44.9429, "lon": -123.0351, "name": "Salem"},
