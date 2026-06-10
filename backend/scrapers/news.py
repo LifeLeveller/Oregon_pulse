@@ -42,7 +42,7 @@ def fetch_city_news(city, urls):
                     "link": entry.get("link", ""),
                     "summary": summary,
                     "source": feed.feed.get("title", url),
-                    "city": city,
+                    "city": city,  # Always use the feed's city directly
                     "published_at": entry.get("published", str(datetime.now())),
                     "fetched_at": str(datetime.now()),
                 })
