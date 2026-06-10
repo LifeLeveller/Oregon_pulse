@@ -33,15 +33,15 @@ def root():
     return {"message": "Oregon Pulse API is running"}
 
 @app.get("/api/headlines")
-def get_headlines(limit: int = 20):
+def get_headlines(limit: int = 20, city: str = None):
     try:
-        data = query_headlines(limit)
+        data = query_headlines(limit, city)
         return {"count": len(data), "headlines": data}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/weather")
-def get_weather(city: str = "Oregon"):
+def get_weather(city: str = "Portland"):
     try:
         from backend.scrapers.weather import fetch_weather
         weather = fetch_weather(city)
@@ -54,9 +54,9 @@ def get_weather(city: str = "Oregon"):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/events")
-def get_events(limit: int = 20):
+def get_events(limit: int = 20, city: str = None):
     try:
-        data = query_events(limit)
+        data = query_events(limit, city)
         return {"count": len(data), "events": data}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
