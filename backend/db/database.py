@@ -123,11 +123,27 @@ def save_events(events):
     conn.close()
     print(f"Saved {saved} new events")
 
-def query_headlines(limit=20):
+def query_headlines(limit=20, city=None):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM headlines ORDER BY fetched_at DESC LIMIT ?", (limit,))
-    rows = cursor.fetchall()
+
+    if city and city != "Oregon":
+        cursor.execute(
+            "SELECT * FROM headlines WHERE city = ? ORDER BY fetched_at DESC LIMIT ?",
+            (city, limit)
+        )
+        rows = cursor.fetchall()
+    else:
+        # For All Oregon show top 3 from each city
+        cities = ["Oregon", "Portland", "Salem", "Eugene", "West Linn", "Lake Oswego"]
+        rows = []
+        for c in cities:
+            cursor.execute(
+                "SELECT * FROM headlines WHERE city = ? ORDER BY fetched_at DESC LIMIT 3",
+                (c,)
+            )
+            rows += cursor.fetchall()
+
     conn.close()
     return [dict(row) for row in rows]
 
@@ -207,23 +223,6 @@ def save_events(events):
     conn.commit()
     conn.close()
     print(f"Saved {saved} new events")
-
-def query_headlines(limit=20, city=None):
-    conn = get_connection()
-    cursor = conn.cursor()
-    if city and city != "Oregon":
-        cursor.execute(
-            "SELECT * FROM headlines WHERE city = ? ORDER BY fetched_at DESC LIMIT ?",
-            (city, limit)
-        )
-    else:
-        cursor.execute(
-            "SELECT * FROM headlines ORDER BY fetched_at DESC LIMIT ?",
-            (limit,)
-        )
-    rows = cursor.fetchall()
-    conn.close()
-    return [dict(row) for row in rows]
 
 def query_events(limit=20, city=None):
     conn = get_connection()
