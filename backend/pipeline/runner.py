@@ -7,7 +7,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 from backend.scrapers.news import fetch_oregon_news
 from backend.scrapers.events import fetch_events
 from backend.scrapers.weather import fetch_weather
-from backend.db.database import init_db, save_headlines, save_events, save_weather
+from backend.scrapers.alerts import fetch_oregon_alerts
+from backend.scrapers.wildfires import fetch_oregon_wildfires
+from backend.db.database import init_db, save_headlines, save_events, save_weather, save_alerts, save_wildfires
 
 def run_pipeline():
     print("\n--- Oregon Pulse Pipeline ---")
@@ -22,6 +24,14 @@ def run_pipeline():
     weather = fetch_weather()
     if weather:
         save_weather(weather)
+
+    print("\nFetching weather alerts...")
+    alerts = fetch_oregon_alerts()
+    save_alerts(alerts)
+
+    print("\nFetching wildfire data...")
+    fires = fetch_oregon_wildfires()
+    save_wildfires(fires)
 
     print("\nFetching events...")
     events = fetch_events()

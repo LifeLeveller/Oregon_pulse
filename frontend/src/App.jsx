@@ -3,6 +3,8 @@ import WeatherCard from "./components/WeatherCard";
 import NewsFeed from "./components/NewsFeed";
 import EventsList from "./components/EventsList";
 import CityFilter from "./components/CityFilter";
+import AlertBanner from "./components/AlertBanner";
+import WildfireWidget from "./components/WildfireWidget";
 import "./App.css";
 
 export default function App() {
@@ -24,12 +26,16 @@ export default function App() {
           </div>
         </div>
       </header>
+      <AlertBanner />
       <CityFilter selectedCity={selectedCity} onCityChange={setSelectedCity} />
       <main className="dashboard">
         <WeatherCard city={selectedCity} />
         <NewsFeed city={selectedCity} />
         <EventsList city={selectedCity} />
       </main>
+      <div className="secondary-dashboard">
+        <WildfireWidget />
+      </div>
       <footer className="footer">
         <p>© {new Date().getFullYear()} Sriranjini Sridhar. All rights reserved.</p>
         <p>Built with Python, FastAPI, React and deployed on Railway and Vercel.</p>

@@ -21,3 +21,13 @@ export const fetchEvents = async (city = null) => {
   const { data } = await api.get("/events", { params });
   return data;
 };
+
+export const fetchAlerts = async () => {
+  const { data } = await api.get("/alerts");
+  return data;
+};
+
+export const fetchWildfires = async () => {
+  const { data } = await api.get("/wildfires");
+  return data;
+};

@@ -51,6 +51,29 @@ def init_db():
             description TEXT,
             fetched_at TEXT
         );
+
+        CREATE TABLE IF NOT EXISTS weather_alerts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            event TEXT,
+            headline TEXT,
+            severity TEXT,
+            urgency TEXT,
+            area_desc TEXT UNIQUE,
+            description TEXT,
+            effective TEXT,
+            expires TEXT,
+            fetched_at TEXT
+        );
+        CREATE TABLE IF NOT EXISTS wildfires (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            latitude REAL,
+            longitude REAL,
+            brightness REAL,
+            confidence TEXT,
+            acq_date TEXT,
+            acq_time TEXT,
+            fetched_at TEXT
+        );
     """)
 
     conn.commit()
@@ -237,6 +260,78 @@ def query_events(limit=20, city=None):
             "SELECT * FROM events ORDER BY fetched_at DESC LIMIT ?",
             (limit,)
         )
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
+def save_alerts(alerts):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    # Clear old alerts since these are time-sensitive and shouldn't accumulate
+    cursor.execute("DELETE FROM weather_alerts")
+
+    saved = 0
+    for item in alerts:
+        try:
+            cursor.execute("""
+                INSERT OR IGNORE INTO weather_alerts
+                (event, headline, severity, urgency, area_desc, description, effective, expires, fetched_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                item["event"], item["headline"], item["severity"], item["urgency"],
+                item["area_desc"], item["description"], item["effective"],
+                item["expires"], item["fetched_at"]
+            ))
+            if cursor.rowcount > 0:
+                saved += 1
+        except Exception as e:
+            print(f"Error saving alert: {e}")
+
+    conn.commit()
+    conn.close()
+    print(f"Saved {saved} active weather alerts")
+
+
+def query_alerts():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM weather_alerts ORDER BY severity DESC, effective DESC")
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
+
+def save_wildfires(fires):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    # Clear old fire data since these are point-in-time detections
+    cursor.execute("DELETE FROM wildfires")
+
+    saved = 0
+    for item in fires:
+        try:
+            cursor.execute("""
+                INSERT INTO wildfires
+                (latitude, longitude, brightness, confidence, acq_date, acq_time, fetched_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (
+                item["latitude"], item["longitude"], item["brightness"],
+                item["confidence"], item["acq_date"], item["acq_time"], item["fetched_at"]
+            ))
+            saved += 1
+        except Exception as e:
+            print(f"Error saving wildfire: {e}")
+
+    conn.commit()
+    conn.close()
+    print(f"Saved {saved} active fire detections")
+
+
+def query_wildfires():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM wildfires ORDER BY brightness DESC")
     rows = cursor.fetchall()
     conn.close()
     return [dict(row) for row in rows]

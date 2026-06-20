@@ -68,3 +68,21 @@ def trigger_pipeline():
         return {"message": "Pipeline ran successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/alerts")
+def get_alerts():
+    try:
+        from backend.db.database import query_alerts
+        data = query_alerts()
+        return {"count": len(data), "alerts": data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/wildfires")
+def get_wildfires():
+    try:
+        from backend.db.database import query_wildfires
+        data = query_wildfires()
+        return {"count": len(data), "wildfires": data}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
