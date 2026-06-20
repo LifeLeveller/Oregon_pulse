@@ -11,6 +11,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"), override=False)
 
 FIRMS_MAP_KEY = os.getenv("FIRMS_MAP_KEY", "").strip().strip('"').strip("'")
+if not FIRMS_MAP_KEY:
+    from backend.config import FIRMS_MAP_KEY as FALLBACK_KEY
+    FIRMS_MAP_KEY = FALLBACK_KEY
 
 # Oregon bounding box: west, south, east, north
 OREGON_BBOX = "-124.6,41.9,-116.4,46.3"
